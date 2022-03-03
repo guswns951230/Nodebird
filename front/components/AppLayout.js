@@ -34,8 +34,11 @@ const AppLayout = ({ children }) => { // pages의 파일들이  공통적으로 
       </Menu>
 
       <Row gutter={8}>
-        <Col xs={24} md={6}>  {/*n/24*/}
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+        <Col xs={24} md={6}>
+          {isLoggedIn ?
+            <UserProfile setIsLoggedIn={setIsLoggedIn} /> :
+            <LoginForm setIsLoggedIn={setIsLoggedIn} />
+          }
         </Col>
 
         <Col xs={24} md={12}>

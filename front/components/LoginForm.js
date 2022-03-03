@@ -7,10 +7,10 @@ const ButtonWrapper = styled.div`
   margin-top: 10px;
 `
 const FormWrapper = styled(Form)`
-  margin-left: 4px;
+  padding: 10px;
 `
 
-const LoginForm = () => {
+const LoginForm = ({ setIsLoggedIn }) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
@@ -22,11 +22,13 @@ const LoginForm = () => {
     setPassword(e.target.value);
   }, []);
 
-  // const formStyle = useMemo(() => ({ marginLeft: 4 }), []);
-  // const buttonStyle = useMemo(() => ({ marginTop: 10 }), []);
+  const onSubmitForm = useCallback(() => {
+    console.log(id, password);
+    setIsLoggedIn(true);
+  }, [id, password]);
 
   return (
-    <FormWrapper>
+    <FormWrapper onFinish={onSubmitForm}> {/*onFinish에는 기본적으로 e.preventDefault가 적용되어있다.*/}
       <div>
         <label htmlFor="user-id">Id</label>
         <br />
