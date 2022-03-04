@@ -9,7 +9,7 @@ import LoginForm from '../components/LoginForm';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
-`
+`;
 
 const AppLayout = ({ children }) => { // pages의 파일들이  공통적으로 사용할 Layout
   const [isLoggedIn, setIsLoggedIn] = useState(false);
