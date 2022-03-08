@@ -6,6 +6,7 @@ export const initialState = {
 };
 
 // action creator
+const LOG_IN = 'LOG_IN';
 export const loginAction = (data) => {
   return {
     type: 'LOG_IN',
@@ -13,6 +14,7 @@ export const loginAction = (data) => {
   }
 };
 
+const LOG_OUT = 'LOG_OUT';
 export const logoutAction = (data) => {
   return {
     type: 'LOG_OUT',
@@ -22,14 +24,14 @@ export const logoutAction = (data) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOG_IN':
+    case LOG_IN:
       return {
         ...state,
         isLoggedIn: true,
         user: action.data,
       };
 
-    case 'LOG_OUT':
+    case LOG_OUT:
       return {
         ...state,
         isLoggedIn: false,

@@ -1,11 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import AppLayout from '../components/AppLayout';
+import PostForm from '../components/postForm';
+import PostCard from '../components/postCard';
 
 const Home = () => {
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const { mainPost } = useSelector((state) => state.post);
   return (
     <AppLayout>
-      {/* AppLayout로 감싸진 태그들이 children이 된다 */}
-      <div>Hello, Next!</div>
+      {isLoggedIn && <PostForm />}
+      {mainPost.map((post) => <PostCard key={post.id} post={post} />)}
     </AppLayout>
   );
 };
