@@ -1,62 +1,23 @@
-import { HYDRATE } from "next-redux-wrapper";
+import { HYDRATE } from "next-redux-wrapper"; // redux server side rendering을 위함
+import { combineReducers } from "redux";
 
-const initialState = {
-  user: {
-    isLoggedIn: false,
-    user: null,
-    signUpData: {},
-    loginData: {},
-  },
-  post: {
-    mainPost: [],
-  },
-};
-
-// action creator
-export const loginAction = (data) => {
-  return {
-    type: 'LOG_IN',
-    data,
-  }
-};
-
-export const logoutAction = (data) => {
-  return {
-    type: 'LOG_OUT',
-    data,
-  }
-};
+import user from './user';
+import post from './post';
 
 // (이전상태, 액션) => 다음상태
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case HYDRATE:
-      console.log('HYDRATE', action);
-      return { ...state, ...action.payload };
+const rootReducer = combineReducers({
+  index: (state = {}, action) => {
+    switch (action.type) {
+      case HYDRATE:
+        console.log('HYDRATE', action);
+        return { ...state, ...action.payload };
 
-    case 'LOG_IN':
-      return {
-        ...state,
-        user: {
-          ...state,
-          isLoggedIn: true,
-          user: action.data,
-        },
-      };
-
-    case 'LOG_OUT':
-      return {
-        ...state,
-        user: {
-          ...state,
-          isLoggedIn: false,
-          user: null,
-        },
-      };
-
-    default:
-      return state;
-  }
-};
+      default:
+        return state;
+    }
+  },  // HYDRATE를 위한 index reducer 추가
+  user,
+  post,
+});
 
 export default rootReducer;
