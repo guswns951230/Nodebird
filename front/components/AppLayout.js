@@ -35,19 +35,19 @@ const AppLayout = ({ children }) => { // pages의 파일들이  공통적으로 
     <div>
       <Global />
       <Menu mode="horizontal">
-        <Menu.Item>
+        <Menu.Item key="main">
           <Link href="/"><a>NodeBird</a></Link>
         </Menu.Item>
 
-        <Menu.Item>
+        <Menu.Item key="profile">
           <Link href="/profile"><a>My Profile</a></Link>
         </Menu.Item>
 
-        <Menu.Item>
+        <Menu.Item key="enterBtn">
           <SearchInput enterButton />
         </Menu.Item>
 
-        <Menu.Item>
+        <Menu.Item key="signup">
           <Link href="/signup"><a>Sign Up</a></Link>
         </Menu.Item>
       </Menu>
