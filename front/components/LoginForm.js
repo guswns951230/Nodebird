@@ -16,21 +16,21 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { isLoggingIn } = useSelector((state) => state.user);
-  const [id, onChangeId] = useInput('');
+  const { logInLoading } = useSelector((state) => state.user);
+  const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
-    dispatch(loginRequestAction({ id, password }));
-  }, [id, password]);
+    console.log(email, password);
+    dispatch(loginRequestAction({ email, password }));
+  }, [email, password]);
 
   return (
     <FormWrapper onFinish={onSubmitForm}> {/*onFinish에는 기본적으로 e.preventDefault가 적용되어있다.*/}
       <div>
-        <label htmlFor="user-id">Id</label>
+        <label htmlFor="user-email">e-mail</label>
         <br />
-        <Input name="user-id" value={id} onChange={onChangeId} required />
+        <Input name="user-email" type="email" value={email} onChange={onChangeEmail} required />
       </div>
 
       <div>
@@ -46,7 +46,7 @@ const LoginForm = () => {
       </div>
 
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={isLoggingIn}>Login</Button>
+        <Button type="primary" htmlType="submit" loading={logInLoading}>Login</Button>
         <Link href="/signup"><a><Button>Sign Up</Button></a></Link>
       </ButtonWrapper>
     </FormWrapper>
