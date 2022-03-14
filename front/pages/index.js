@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/postForm';
@@ -10,6 +11,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
+  const [ref, inView] = useInView();
 
   useEffect(() => {
     dispatch({
@@ -18,25 +20,25 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    function onScroll() {
-      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-        if (hasMorePosts && !loadPostsLoading) {
-          dispatch({
-            type: LOAD_POSTS_REQUEST,
-          });
-        }
-      }
+    console.log('inView:', inView);
+    console.log('hasMorePosts:', hasMorePosts);
+    console.log('!loadPostsLoading:', !loadPostsLoading);
+    if (inView && hasMorePosts && !loadPostsLoading) {
+      const lastId = mainPosts[mainPosts.length - 1]?.id;
+      dispatch({
+        type: LOAD_POSTS_REQUEST,
+        lastId,
+      });
     }
-    window.addEventListener('scroll', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [hasMorePosts, loadPostsLoading]);
+  },
+    [inView, hasMorePosts, loadPostsLoading, mainPosts],
+  );
 
   return (
     <AppLayout>
       {me && <PostForm />}
       {mainPosts.map((post) => <PostCard key={post.id} post={post} />)}
+      <div style={{ height: 50 }} ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
     </AppLayout>
   );
 };
