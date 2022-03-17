@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { all, fork, delay, put, takeLatest } from 'redux-saga/effects';
+import { all, fork, delay, put, takeLatest, call } from 'redux-saga/effects';
 import {
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
@@ -84,13 +84,13 @@ function* logOut() {
   }
 }
 
-function signUpAPI() { // * 붙이면 error
-  return axios.post('/api/logout');
+function signUpAPI(data) { // * 붙이면 error
+  return axios.post('http://localhost:3065/user', data);
 }
-function* signUp() {
+function* signUp(action) {
   try {
-    // const result = yield call(signUpAPI, action.data);
-    yield delay(1000);
+    const result = yield call(signUpAPI, action.data);
+    console.log(result);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
