@@ -1,4 +1,4 @@
-module.export = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Hashtag = sequelize.define('Hashtag', {
     // id가 기본적으로 들어있다.
     name: {
@@ -10,7 +10,7 @@ module.export = (sequelize, DataTypes) => {
     collate: 'utf8mb4_general_ci',
   });
   Hashtag.associate = (db) => {
-    db.Hashtag.belongsToMany(db.Post);
+    db.Hashtag.belongsToMany(db.Post, { through: 'PostHashtag' });
   };
 
   return Hashtag;
