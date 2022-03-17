@@ -1,9 +1,10 @@
 // node는 webpack을 쓰지 않기 때문에 require와 module.exports를 사용한다
 const express = require('express');
+const cors = require('cors');
+
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const db = require('./models');
-const { application } = require('express');
 
 const app = express();
 
@@ -13,6 +14,10 @@ db.sequelize.sync()
   })
   .catch(console.error);
 
+app.use(cors({
+  origin: '*',
+  // credentials: false,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));  // front에서 받아온 data를 req.body에 넣어준다.
 
