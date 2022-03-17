@@ -47,16 +47,15 @@ function* unfollow(action) {
 }
 
 function logInAPI(data) { // * 붙이면 error
-  return axios.post('/api/login', data);
+  return axios.post('/user/login', data);
 }
 function* logIn(action) {
   try {
     console.log('saga logIn');
-    // const result = yield call(logInAPI, action.data);  // call은 logInAPI가 return할때까지 기다렸다 result에 넣음
-    yield delay(1000);
+    const result = yield call(logInAPI, action.data);  // call은 logInAPI가 return할때까지 기다렸다 result에 넣음
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -67,7 +66,7 @@ function* logIn(action) {
 }
 
 function logOutAPI() { // * 붙이면 error
-  return axios.post('/api/logout');
+  return axios.post('/user/logout');
 }
 function* logOut() {
   try {
@@ -85,7 +84,7 @@ function* logOut() {
 }
 
 function signUpAPI(data) { // * 붙이면 error
-  return axios.post('http://localhost:3065/user', data);
+  return axios.post('/user', data);
 }
 function* signUp(action) {
   try {
