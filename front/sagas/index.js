@@ -5,6 +5,7 @@ import postSaga from './post';
 import userSaga from './user';
 
 axios.defaults.baseURL = 'http://localhost:3065';
+axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {
   yield all([ // all은 배열을 받고, 배열 안의 모든것을 동시에 실행

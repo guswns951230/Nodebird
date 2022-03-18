@@ -23,8 +23,8 @@ db.sequelize.sync()
 passportConfig();
 
 app.use(cors({
-  origin: '*',
-  // credentials: false,
+  origin: 'http://localhost:3060',
+  credentials: true,
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));  // front에서 받아온 data를 req.body에 넣어준다.
