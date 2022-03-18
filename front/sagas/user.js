@@ -1,12 +1,31 @@
 import axios from 'axios';
 import { all, fork, delay, put, takeLatest, call } from 'redux-saga/effects';
 import {
+  LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE,
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
   LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
   LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
   SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
 } from '../reducers/user';
+
+function loadMyInfoAPI() {
+  return axios.get('/user');
+}
+function* loadMyInfo(action) {
+  try {
+    const result = yield call(loadMyInfoAPI, action.data);
+    yield put({
+      type: LOAD_MY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: LOAD_MY_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function followAPI() { // * 붙이면 error
   return axios.post('/api/follow');
@@ -27,7 +46,7 @@ function* follow(action) {
   }
 }
 
-function unfollowAPI() { // * 붙이면 error
+function unfollowAPI() {
   return axios.post('/api/unfollow');
 }
 function* unfollow(action) {
@@ -46,7 +65,7 @@ function* unfollow(action) {
   }
 }
 
-function logInAPI(data) { // * 붙이면 error
+function logInAPI(data) {
   return axios.post('/user/login', data);
 }
 function* logIn(action) {
@@ -65,7 +84,7 @@ function* logIn(action) {
   }
 }
 
-function logOutAPI() { // * 붙이면 error
+function logOutAPI() {
   return axios.post('/user/logout');
 }
 function* logOut() {
@@ -82,7 +101,7 @@ function* logOut() {
   }
 }
 
-function signUpAPI(data) { // * 붙이면 error
+function signUpAPI(data) {
   return axios.post('/user', data);
 }
 function* signUp(action) {
@@ -98,6 +117,10 @@ function* signUp(action) {
       error: err.response.data,
     });
   }
+}
+
+function* watchLoadMyInfo() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 
 function* watchFollow() {
@@ -122,6 +145,7 @@ function* watchSignUp() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchLoadMyInfo),
     fork(watchFollow),
     fork(watchUnfollow),
     fork(watchLogIn),
