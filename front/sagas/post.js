@@ -1,26 +1,22 @@
 import axios from 'axios';
-import shortId from 'shortid';
 import { all, fork, delay, put, takeLatest, throttle, call } from "redux-saga/effects";
 import {
   ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
   LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
-  generateDummyPost,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
 function loadPostsAPI(data) { // * 붙이면 error
-  return axios.get('/api/posts', data);
+  return axios.get('/posts', data);
 }
 function* loadPosts(action) {
   try {
-    // const result = yield call(loadPostsAPI, action.data);  // call은 logInAPI가 return할때까지 기다렸다 result에 넣음
-    yield delay(1000);
-    const id = shortId.generate();
+    const result = yield call(loadPostsAPI, action.data);
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: generateDummyPost(10),
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -31,7 +27,7 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(data) { // * 붙이면 error
-  return axios.post('/post', { content: data });
+  return axios.post('/post', { content: data }); // call은 logInAPI가 return할때까지 기다렸다 result에 넣음
 }
 function* addPost(action) {
   try {

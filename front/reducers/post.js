@@ -1,12 +1,7 @@
-import shortId from 'shortid';
 import produce from 'immer';
-import faker from 'faker';
-import { number } from 'prop-types';
 
 export const initialState = {
-  mainPosts: [  // Dummy Data
-
-  ],
+  mainPosts: [],
   hasMorePosts: true,
   imagePaths: [], // image 업로드 시 image의 경로를 저장
   loadPostsLoading: false,
@@ -22,25 +17,6 @@ export const initialState = {
   addCommentDone: false,
   addCommentError: null,
 };
-
-export const generateDummyPost = (number) => Array(number).fill().map(() => ({
-  id: shortId.generate(),
-  User: {
-    id: shortId.generate(),
-    nickname: faker.name.findName(),
-  },
-  content: faker.lorem.paragraph(),
-  Images: [{
-    src: faker.image.image(),
-  }],
-  Comments: [{
-    User: {
-      id: shortId.generate(),
-      nickname: faker.name.findName(),
-    },
-    content: faker.lorem.sentence(),
-  }],
-}));
 
 export const LOAD_POSTS_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POST_SUCCESS';
