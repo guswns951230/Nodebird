@@ -42,7 +42,7 @@ const Home = () => {
     <AppLayout>
       {me && <PostForm />}
       {mainPosts.map((post) => <PostCard key={post.id} post={post} />)}
-      <div style={{ height: 50 }} ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
+      <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
     </AppLayout>
   );
 };

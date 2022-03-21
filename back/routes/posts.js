@@ -8,7 +8,7 @@ router.get('/', async (req, res, next) => { // GET /posts
   try {
     const posts = await Post.findAll({
       limit: 10,  // 한번에 불러오는 게시글 수
-      order: [['createAt', 'DESC']], // 최신 게시글부터 가져오기
+      order: [['createdAt', 'DESC']], // 최신 게시글부터 가져오기
       include: [{
         model: User,
       }, {
