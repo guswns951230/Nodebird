@@ -2,8 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { List, Button, Card } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+
+import { UNFOLLOW_REQUEST, REMOVE_FOLLOWER_REQUEST } from '../reducers/user';
 
 const FollowList = ({ header, data }) => {
+  const dispatch = useDispatch();
+  const onCancel = (id) => () => {
+    if (header === 'Following List') {
+      dispatch({
+        type: UNFOLLOW_REQUEST,
+        data: id,
+      });
+    }
+    dispatch({
+      type: REMOVE_FOLLOWER_REQUEST,
+      data: id
+    });
+  };
+
   return (
     <List
       style={{ marginBottom: 20 }}
@@ -13,10 +30,10 @@ const FollowList = ({ header, data }) => {
       loadMore={<div style={{ textAlign: 'center', margin: '10px 0' }}><Button>더 보기</Button></div>}
       bordered
       dataSource={data}
-      renderItem={(Item) => (
+      renderItem={(item) => (
         <List.Item style={{ marginTop: 20 }}>
-          <Card actions={[<StopOutlined key="stop" />]}>
-            <Card.Meta description={Item.nickname} />
+          <Card actions={[<StopOutlined key="stop" onClick={onCancel(item.id)} />]}>
+            <Card.Meta description={item.nickname} />
           </Card>
         </List.Item>
       )}
