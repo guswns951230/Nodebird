@@ -84,7 +84,7 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(data) { // * 붙이면 error
-  return axios.post('/post', { content: data }); // call은 logInAPI가 return할때까지 기다렸다 result에 넣음
+  return axios.post('/post', data); // call은 logInAPI가 return할때까지 기다렸다 result에 넣음
 }
 function* addPost(action) {
   try {
