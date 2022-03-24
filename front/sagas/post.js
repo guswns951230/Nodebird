@@ -84,12 +84,12 @@ function* unlikePost(action) {
   }
 }
 
-function loadPostsAPI(data) { // * 붙이면 error
-  return axios.get('/posts', data);
+function loadPostsAPI(lastId) { // * 붙이면 error
+  return axios.get(`/posts?lastId=${lastId || 0}`);
 }
 function* loadPosts(action) {
   try {
-    const result = yield call(loadPostsAPI, action.data);
+    const result = yield call(loadPostsAPI, action.lastId);
     yield put({
       type: LOAD_POSTS_SUCCESS,
       data: result.data,
