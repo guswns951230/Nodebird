@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Card, Popover, Avatar, List, Comment } from 'antd';
@@ -12,15 +12,9 @@ import FollowButton from "./FollowButton";
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
-  const { removePosteLoading, retweetError } = useSelector((state) => state.post);
+  const { removePosteLoading } = useSelector((state) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const id = useSelector((state) => state.user.me?.id);
-
-  // useEffect(() => {
-  //   if (retweetError) {
-  //     alert(retweetError);
-  //   }
-  // }, [retweetError]);
 
   const onLike = useCallback(() => {
     if (!id) {
