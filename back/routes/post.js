@@ -5,7 +5,6 @@ const fs = require('fs');
 
 const { Post, User, Comment, Image, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
-const image = require('../models/image');
 
 const router = express.Router();
 

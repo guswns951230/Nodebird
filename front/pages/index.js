@@ -63,6 +63,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
     store.dispatch(END);  // REQUEST가 saga에서 SUCCESS될 때 까지 대기
     await store.sagaTask.toPromise(); // configureStore.js의 store.sagaTask
-  });
+  }
+);
 
 export default Home;
