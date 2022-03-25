@@ -83,7 +83,7 @@ const User = () => {
       {mainPosts.map((c) => (
         <PostCard key={c.id} post={c} />
       ))}
-      <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
+      <div style={{ height: 50 }} ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
     </AppLayout>
   );
 };
