@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { END } from 'redux-saga';
+import axios from 'axios';
 
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/postForm';
@@ -48,15 +49,20 @@ const Home = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
+  (store) => async ({ req }) => {
+    const cookie = req ? req.headers.cookie : '';
+    axios.defaults.headers.Cookie = ''; // cookie를 지움
+    if (req && cookie) {  // server일때, cookie가 있을 때
+      axios.defaults.headers.Cookie = cookie; // cookie를 넣음
+    } // => front server에서 cookie가 공유되는 문제 해결
     store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
     });
     store.dispatch({
       type: LOAD_POSTS_REQUEST,
     });
-    store.dispatch(END);
-    await store.sagaTask.toPromise();
+    store.dispatch(END);  // REQUEST가 saga에서 SUCCESS될 때 까지 대기
+    await store.sagaTask.toPromise(); // configureStore.js의 store.sagaTask
   });
 
 export default Home;
