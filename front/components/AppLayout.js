@@ -58,10 +58,6 @@ const AppLayout = ({ children }) => { // pages의 파일들이  공통적으로 
             onSearch={onSearch}
           />
         </Menu.Item>
-
-        <Menu.Item key="signup">
-          <Link href="/signup"><a>Sign Up</a></Link>
-        </Menu.Item>
       </Menu>
 
       <Row gutter={8}>
