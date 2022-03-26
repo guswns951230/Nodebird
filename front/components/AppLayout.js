@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
+import Router from 'next/router';
 
 import UserProfile from '../components/UserProfile';
 import LoginForm from '../components/LoginForm';
+import useInput from '../hooks/useInput';
 
 const Global = createGlobalStyle`
   .ant-row{
@@ -29,7 +31,12 @@ const SearchInput = styled(Input.Search)`
 `;
 
 const AppLayout = ({ children }) => { // pages의 파일들이  공통적으로 사용할 Layout
+  const [searchInput, onChangeSearchInput] = useInput('');
   const { me } = useSelector((state) => state.user);
+
+  const onSearch = useCallback(() => {
+    Router.push(`/hashtag/${searchInput}`);
+  }, [searchInput]);
 
   return (
     <div>
@@ -44,7 +51,12 @@ const AppLayout = ({ children }) => { // pages의 파일들이  공통적으로 
         </Menu.Item>
 
         <Menu.Item key="enterBtn">
-          <SearchInput enterButton />
+          <SearchInput
+            enterButton
+            value={searchInput}
+            onChange={onChangeSearchInput}
+            onSearch={onSearch}
+          />
         </Menu.Item>
 
         <Menu.Item key="signup">
